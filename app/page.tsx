@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowRight, Flag, Footprints, Heart, MapPin, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, Flag, Footprints, Heart, MapPin, Menu, Sparkles, X } from "lucide-react";
 import ContinuousRoad from "../components/continuous-road";
 import { MagneticButton, Reveal, ScrollFloat, SpotlightCard } from "../components/interactive";
 
@@ -15,6 +15,7 @@ const stops = [
 export default function Home() {
   const [session, setSession] = useState<{ name?: string; photo?: string } | null>(null);
   const [enrolled, setEnrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     try {
       const savedSession = JSON.parse(window.localStorage.getItem("pqa-demo-session") || "null");
@@ -32,8 +33,9 @@ export default function Home() {
           <Link href="/" className="brand brand-logo" aria-label="MF Contabilidade">
             <Image src="/brand/mf-logo.png" alt="MF Medina e Freire Contabilidade" width={180} height={54} priority />
           </Link>
-          <nav className="nav" aria-label="Navegação principal">
-            <a href="#jornada">Jornada</a><a href="#largada">Largada</a><a href="#faq">FAQ</a>
+          <button className="mobile-menu-toggle" type="button" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
+          <nav id="main-navigation" className={`nav ${menuOpen ? "is-open" : ""}`} aria-label="Navegação principal">
+            <a href="#jornada" onClick={() => setMenuOpen(false)}>Jornada</a><a href="#largada" onClick={() => setMenuOpen(false)}>Largada</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
             {session ? <Link href={accountHref} className="home-account-avatar" aria-label="Abrir minha conta" title={session.name || "Minha conta"}>{session.photo ? <img src={session.photo} alt="" /> : <span>{(session.name || "P").charAt(0).toUpperCase()}</span>}</Link> : <Link href="/entrar">Já tenho conta</Link>}
             <Link className="button button-primary nav-button" href={actionHref}>{actionLabel} <ArrowRight size={16} /></Link>
           </nav>
@@ -57,7 +59,7 @@ export default function Home() {
                 <div className="hero-facts"><span><b>5 km</b> percurso</span><span><b>Jardim de Alah</b> largada</span><span><b>+5 mil</b> passos juntos</span></div>
               </div>
             </Reveal>
-            <ScrollFloat distance={28}><div className="start-sign" aria-hidden="true"><span className="start-pill">PONTO DE PARTIDA</span><div className="start-arch"><i /><i /><i /></div><span className="start-line">START</span></div></ScrollFloat>
+            <ScrollFloat distance={28}><div className="start-sign" aria-hidden="true"><span className="start-pill">PONTO DE PARTIDA</span><div className="start-arch"><i /><i /><i /></div><Image className="start-mascot" src="/campaign/mascot-start-cutout.png" alt="" width={300} height={424} priority /><span className="start-line">START</span></div></ScrollFloat>
           </div>
           <a className="scroll-cue" href="#pontos"><span>ROLE PARA SEGUIR A ROTA</span><ArrowDown size={18} /></a>
         </section>
@@ -70,7 +72,7 @@ export default function Home() {
         </section>
 
         <section className="road-stop-section points-stop">
-          <div className="container"><div className="section-kicker">A ROTA TEM MOTIVO</div><h2 className="section-title">Pare em cada ponto.<br /><span>Leve algo com você.</span></h2><div className="stop-cards">{stops.map((stop, index) => { const Icon = stop.icon; return <Reveal key={stop.no} delay={index * .08}><SpotlightCard><article className="point-card"><div className="point-top"><span>{stop.no}</span><Icon size={21} /></div><h3>{stop.title}</h3><p>{stop.text}</p><ArrowRight className="point-arrow" size={20} /></article></SpotlightCard></Reveal>; })}</div></div>
+          <div className="container"><div className="section-kicker">A ROTA TEM MOTIVO</div><h2 className="section-title">Pare em cada ponto.<br /><span>Leve algo com você.</span></h2><div className="points-layout"><div className="stop-cards">{stops.map((stop, index) => { const Icon = stop.icon; return <Reveal key={stop.no} delay={index * .08}><SpotlightCard><article className="point-card"><div className="point-top"><span>{stop.no}</span><Icon size={21} /></div><h3>{stop.title}</h3><p>{stop.text}</p><ArrowRight className="point-arrow" size={20} /></article></SpotlightCard></Reveal>; })}</div><div className="points-mascot"><Image src="/campaign/mascot-points-cutout.png" alt="Corredor da campanha alongando antes da corrida" width={300} height={450} /></div></div></div>
         </section>
 
         <section className="road-stop-section map-stop" id="largada">
@@ -84,7 +86,7 @@ export default function Home() {
           <div className="container"><div className="detail-header"><div><span className="stop-label">PONTO 04 · PREPARE-SE</span><h2>Seu kit para a jornada.</h2></div><p>Informação simples para você aproveitar cada curva do caminho.</p></div><div className="detail-grid">{[["01", "Inscrição", "Garanta sua vaga e acompanhe as próximas instruções."], ["02", "No dia", "Tênis confortável, água e vontade de fazer o bem."], ["03", "Depois da linha", "Compartilhe a conquista e continue alimentando futuros."]].map(([no, title, text]) => <div className="detail-item" key={no}><b>{no}</b><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></div>
         </section>
 
-        <section className="finish-stop"><div className="container finish-inner"><Flag size={30} /><span className="stop-label">LINHA DE CHEGADA</span><h2>O próximo passo<br /><em>começa com você.</em></h2><p>Faça sua pré-inscrição e venha construir essa rota com a gente.</p><MagneticButton><Link className="button button-orange" href="/pre-inscricao">Entrar para a corrida <ArrowRight size={18} /></Link></MagneticButton></div></section>
+        <section className="finish-stop"><div className="container finish-inner"><Image className="finish-mascot" src="/campaign/mascot-finish-cutout.png" alt="Corredor convidando para a linha de chegada" width={280} height={590} /><Flag size={30} /><span className="stop-label">LINHA DE CHEGADA</span><h2>O próximo passo<br /><em>começa com você.</em></h2><p>Faça sua pré-inscrição e venha construir essa rota com a gente.</p><MagneticButton><Link className="button button-orange" href="/pre-inscricao">Entrar para a corrida <ArrowRight size={18} /></Link></MagneticButton></div></section>
 
         <section className="supporters-section" aria-labelledby="supporters-title"><div className="container supporters-intro"><div><span className="stop-label">QUEM CAMINHA COM A GENTE</span><h2 id="supporters-title">Essa rota só existe<br /><em>porque vocês apoiam.</em></h2></div><p>A cada parceiro, uma nova possibilidade. Obrigado por transformar solidariedade em movimento.</p></div><div className="supporter-marquee" aria-label="Apoiadores da corrida"><div className="supporter-track"><div className="supporter-set">{["APOIO", "COMUNIDADE", "MOVIMENTO", "CUIDADO", "PARCERIA", "FUTURO"].map((name, index) => <div className="supporter-logo" key={`a-${name}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{name}</strong></div>)}</div><div className="supporter-set" aria-hidden="true">{["APOIO", "COMUNIDADE", "MOVIMENTO", "CUIDADO", "PARCERIA", "FUTURO"].map((name, index) => <div className="supporter-logo" key={`b-${name}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{name}</strong></div>)}</div><div className="supporter-set" aria-hidden="true">{["APOIO", "COMUNIDADE", "MOVIMENTO", "CUIDADO", "PARCERIA", "FUTURO"].map((name, index) => <div className="supporter-logo" key={`c-${name}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{name}</strong></div>)}</div><div className="supporter-set" aria-hidden="true">{["APOIO", "COMUNIDADE", "MOVIMENTO", "CUIDADO", "PARCERIA", "FUTURO"].map((name, index) => <div className="supporter-logo" key={`d-${name}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{name}</strong></div>)}</div></div></div><div className="supporter-note">Espaços reservados para as marcas que apoiam a ação <span>●</span></div></section>
 

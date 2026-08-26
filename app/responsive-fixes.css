@@ -1,0 +1,105 @@
+/* Cross-page responsive guardrails. Keep the route artwork, content and actions usable at every width. */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, svg, video, iframe { max-width: 100%; }
+button, a.button { min-height: 44px; }
+
+.mobile-menu-toggle { display: none; border: 1px solid #ffffff35; border-radius: 12px; background: #ffffff12; color: #fff; width: 44px; height: 44px; place-items: center; }
+
+@media (max-width: 800px) {
+  .road-header { height: 68px; }
+  .road-header .header-inner { width: min(100% - 28px, 1160px); }
+  .road-header .brand-logo img { width: 140px; height: auto; }
+  .mobile-menu-toggle { display: grid; }
+  .road-header .nav { display: none; position: absolute; top: 68px; left: 14px; right: 14px; z-index: 20; padding: 14px; border: 1px solid #ffffff22; border-radius: 18px; background: #10234bf7; box-shadow: 0 20px 50px #06132e66; }
+  .road-header .nav.is-open { display: grid; gap: 4px; }
+  .road-header .nav a { min-height: 44px; padding: 10px 12px; display: flex; align-items: center; border-radius: 10px; }
+  .road-header .nav a:hover { background: #ffffff12; }
+  .road-header .nav .home-account-avatar { justify-self: start; padding: 0; width: 44px; height: 44px; }
+  .road-header .nav .nav-button { width: 100%; margin-top: 5px; }
+  .road-header .nav .nav-button:hover { background: var(--blue); }
+  main.road-site .road-hero-point { min-height: max(760px, 100svh); }
+  main.road-site .road-copy-block h1 { max-width: 100%; overflow-wrap: anywhere; }
+  main.road-site .hero-facts { flex-wrap: wrap; gap: 18px; }
+  main.road-site .start-sign { max-width: 100%; }
+  main.road-site .start-mascot { width: 160px; height: 225px; right: -6px; bottom: 18px; }
+  .supporters-intro { flex-direction: column; align-items: flex-start; gap: 18px; }
+  main.road-site .supporters-intro { margin-bottom: 58px; }
+  .supporters-intro h2 { max-width: 100%; overflow-wrap: anywhere; }
+  main.road-site .supporter-logo { min-width: 205px; height: 104px; }
+  .road-faq .faq-layout { gap: 38px; }
+  .road-faq .faq-intro h2 { font-size: clamp(46px, 13vw, 64px); }
+  .road-footer { padding-top: 48px; }
+  .footer-main { gap: 28px; }
+}
+
+@media (max-width: 480px) {
+  .container { width: min(100% - 28px, 1160px); }
+  main.road-site .road-hero-point { padding-top: 100px; }
+  main.road-site .road-copy-block h1 { font-size: clamp(52px, 16vw, 68px) !important; }
+  main.road-site .hero-actions { align-items: stretch; }
+  main.road-site .hero-actions > * { width: 100%; }
+  main.road-site .hero-actions .road-text-link { justify-content: center; }
+  main.road-site .hero-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 30px; }
+  main.road-site .hero-facts span:last-child { grid-column: 1 / -1; }
+  .supporters-section { padding: 88px 0 75px; }
+  main.road-site .supporter-logo { min-width: 190px; }
+  .supporter-note { font-size: 10px; line-height: 1.5; }
+  .footer-main { grid-template-columns: 1fr; }
+  .footer-brand { grid-column: auto; }
+  .footer-bottom { font-size: 11px; }
+  .footer-bottom span { max-width: 250px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .road-header .nav, .mobile-menu-toggle { transition: none; }
+}
+
+/* Administrative preview: keep the campaign language and make dense data usable on small screens. */
+.admin-shell { min-height: 100vh; padding: 38px 0 80px; background: linear-gradient(145deg, #071735 0%, #102e65 55%, #eef3ff 150%); color: #fff; }
+.admin-shell .account-head { margin-bottom: 70px; }
+.admin-shell .brand { color: #fff; }
+.admin-shell .brand-mark { background: var(--orange); }
+.admin-shell .button-secondary { background: #fff; color: var(--blue); border-color: #fff; }
+.admin-kicker { color: #ff9a5c; font-size: 12px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+.admin-shell h1 { margin: 12px 0 8px; font: 700 clamp(42px, 6vw, 68px)/.95 var(--font-display); letter-spacing: -.07em; }
+.admin-shell > .container > .muted { max-width: 620px; color: #c9d7ef; line-height: 1.6; }
+.admin-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 34px 0 22px; }
+.admin-stats > div { display: grid; gap: 7px; padding: 22px; background: #ffffff14; border: 1px solid #ffffff20; border-radius: 18px; }
+.admin-stats small { color: #c9d7ef; font-size: 12px; }
+.admin-stats strong { font: 700 38px/1 var(--font-display); color: #fff; }
+.admin-panel { padding: 26px; background: #fff; color: var(--ink); border-radius: 22px; box-shadow: 0 25px 70px #020d2438; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+.panel-head h2 { margin: 0; font: 700 27px/1 var(--font-display); letter-spacing: -.05em; }
+.panel-head .button { width: auto; }
+.table-wrap { overflow-x: auto; overscroll-behavior-inline: contain; }
+.admin-panel table { width: 100%; min-width: 650px; border-collapse: collapse; font-size: 14px; }
+.admin-panel th, .admin-panel td { padding: 15px 12px; border-bottom: 1px solid #e6ebf5; text-align: left; vertical-align: middle; }
+.admin-panel th { color: #7181a0; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.admin-panel td { color: #223660; }
+.badge { display: inline-flex; padding: 6px 9px; border-radius: 99px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.badge.orange { background: #fff0e8; color: #bd541e; }
+.badge.green { background: #e9f9ef; color: #15803d; }
+.badge.blue { background: #eaf0ff; color: var(--blue); }
+.admin-note { margin: 18px 0 0; color: #c9d7ef; font-size: 12px; line-height: 1.5; }
+
+@media (max-width: 700px) {
+  .admin-shell { padding-top: 22px; }
+  .admin-shell .account-head { align-items: flex-start; margin-bottom: 52px; }
+  .admin-shell .account-head .brand { max-width: 170px; line-height: 1.1; }
+  .admin-shell .account-head .button { min-height: 44px; padding: 0 13px; }
+  .admin-stats { grid-template-columns: 1fr; }
+  .admin-stats > div { grid-template-columns: 1fr auto; align-items: center; }
+  .admin-stats strong { font-size: 30px; }
+  .admin-panel { padding: 20px 16px; }
+  .panel-head { align-items: stretch; flex-direction: column; }
+  .panel-head .button { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .flow-shell, .auth-shell { padding-left: 14px; padding-right: 14px; }
+  .flow-card, .auth-card { width: 100%; }
+  .consent-modal { width: calc(100vw - 24px); padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+  .admin-shell .container { width: min(100% - 28px, 1160px); }
+  main.road-site .finish-mascot { left: -70px; top: 0; bottom: 0; width: auto; height: 100%; opacity: .3; }
+  main.road-site .finish-inner h2, main.road-site .finish-inner p, main.road-site .finish-inner .button { position: relative; z-index: 2; }
+}

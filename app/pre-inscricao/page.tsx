@@ -54,7 +54,7 @@ export default function PreInscricao() {
         type: "race.pre_registration.created", schemaVersion: "1.0", idempotencyKey, occurredAt: submittedAt,
         registration: { id: idempotencyKey, protocol, status: "pending_donation", submittedAt },
         event: { slug: "passos-que-alimentam-2026", name: "Corrida Passos que Alimentam", date: "2026-11-28", location: "Jardim de Alah, Salvador - BA", distanceKm: 5, donationRequirement: "2 kg de alimentos não perecíveis ou 1 lata de leite em pó" },
-        participant: { id: session.email || idempotencyKey, fullName: session.name || "Participante", email: session.email || "", phone: null, birthDate: null, ageAtEvent: null },
+        participant: { id: session.email || idempotencyKey, fullName: session.name || "Participante", email: session.email || "", phone: session.phone || null, birthDate: session.birthDate || null, sex: session.sex || null, ageAtEvent: null },
         answers: { heardAbout: source, shirtSize: size, referrerName: source === "REFERRAL" ? name : null },
         consents: [{ type: "image_and_voice", granted: true, version: consentData.version || "1.1", grantedAt: consentData.acceptedAt || submittedAt }],
         guardian: null, notification: { locale: "pt-BR", sendOperationalUpdates: true, marketingConsent: false },
