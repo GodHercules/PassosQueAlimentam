@@ -1,0 +1,7 @@
+"use client";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useRef, useState } from "react";
+export function Reveal({children,delay=0}:{children:React.ReactNode;delay?:number}){const reduce=useReducedMotion();return <motion.div initial={reduce?false:{opacity:0,y:22}} whileInView={reduce?undefined:{opacity:1,y:0}} viewport={{once:false,amount:.2,margin:"0px 0px -8% 0px"}} transition={{duration:.65,delay,ease:[.22,1,.36,1]}}>{children}</motion.div>}
+export function ScrollFloat({children,distance=24}:{children:React.ReactNode;distance?:number}){const ref=useRef<HTMLDivElement>(null);const reduce=useReducedMotion();const {scrollYProgress}=useScroll({target:ref,offset:["start end","end start"]});const y=useTransform(scrollYProgress,[0,1],[-distance,distance]);return <motion.div ref={ref} style={reduce?undefined:{y}}>{children}</motion.div>}
+export function SpotlightCard({children}:{children:React.ReactNode}){const [spot,setSpot]=useState({x:50,y:50});return <motion.div className="spotlight-card" onPointerMove={e=>{const r=e.currentTarget.getBoundingClientRect();setSpot({x:(e.clientX-r.left)/r.width*100,y:(e.clientY-r.top)/r.height*100})}} whileHover={{y:-5}} style={{"--spot-x":`${spot.x}%`,"--spot-y":`${spot.y}%`} as React.CSSProperties}>{children}</motion.div>}
+export function MagneticButton({children}:{children:React.ReactNode}){return <motion.span whileHover={{scale:1.025}} whileTap={{scale:.97}} transition={{type:"spring",stiffness:500,damping:24}}>{children}</motion.span>}

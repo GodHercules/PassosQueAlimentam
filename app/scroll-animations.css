@@ -1,0 +1,10 @@
+/* Motion-only layer: no layout, color or typography changes. */
+@media (prefers-reduced-motion: no-preference){
+  main.road-site .road-marker{animation:marker-drift 5s ease-in-out infinite}
+  main.road-site .marker-2{animation-delay:-1.4s}
+  main.road-site .marker-3{animation-delay:-2.8s}
+  main.road-site .marker-4{animation-delay:-4.1s}
+  main.road-site .point-card,.road-site .stop-card{transition:box-shadow .45s ease,transform .45s cubic-bezier(.22,1,.36,1)}
+  main.road-site .point-card:hover,main.road-site .stop-card:hover{box-shadow:0 24px 42px #17294b25}
+}
+@keyframes marker-drift{0%,100%{translate:0 0}50%{translate:0 -5px}}
