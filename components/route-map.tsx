@@ -1,88 +1,51 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import maplibregl, { GeoJSONSource, Map as MapLibreMap } from "maplibre-gl";
-import { Protocol } from "pmtiles";
-import "maplibre-gl/dist/maplibre-gl.css";
+import type { Map as LeafletMap, Polyline } from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 type Point = { name: string; coordinates: [number, number] };
 const points: Point[] = [
-  { name: "Encontro", coordinates: [-38.442372, -12.99745] },
-  { name: "Largada", coordinates: [-38.442875, -12.996842] },
-  { name: "Retorno", coordinates: [-38.4277672, -12.9799395] },
+  { name: "Encontro", coordinates: [-12.99745, -38.442372] },
+  { name: "Largada", coordinates: [-12.996842, -38.442875] },
+  { name: "Retorno", coordinates: [-12.9799395, -38.4277672] },
 ];
-const routeUrl = `https://router.project-osrm.org/route/v1/foot/${points.map(({ coordinates: [longitude, latitude] }) => `${longitude},${latitude}`).join(";")};${points[1].coordinates[0]},${points[1].coordinates[1]};${points[0].coordinates[0]},${points[0].coordinates[1]}?overview=full&geometries=geojson&steps=false`;
-const fallbackRoute = { type: "Feature" as const, properties: {}, geometry: { type: "LineString" as const, coordinates: [points[0].coordinates, points[1].coordinates, [-38.4397, -12.9952], [-38.4352, -12.9902], [-38.4312, -12.9851], points[2].coordinates, [-38.4312, -12.9851], [-38.4352, -12.9902], [-38.4397, -12.9952], points[1].coordinates, points[0].coordinates] } };
-
-function boundsFor(coordinates: [number, number][]) {
-  return coordinates.reduce((bounds, coordinate) => bounds.extend(coordinate), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
-}
+const osrmUrl = `https://router.project-osrm.org/route/v1/foot/${points.map(({ coordinates: [latitude, longitude] }) => `${longitude},${latitude}`).join(";")};${points[1].coordinates[1]},${points[1].coordinates[0]};${points[0].coordinates[1]},${points[0].coordinates[0]}?overview=full&geometries=geojson&steps=false`;
 
 export default function RouteMap() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<MapLibreMap | null>(null);
-  const [routeStatus, setRouteStatus] = useState<"loading" | "ready" | "fallback">("loading");
+  const mapRef = useRef<LeafletMap | null>(null);
+  const routeRef = useRef<Polyline | null>(null);
+  const [status, setStatus] = useState("Carregando mapa…");
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
-    let map: MapLibreMap | null = null;
-    let cancelled = false;
-
-    const drawMap = (style: maplibregl.StyleSpecification) => {
-      if (!containerRef.current || cancelled) return;
-      map = new maplibregl.Map({ container: containerRef.current, style, center: [-38.4355, -12.99], zoom: 13.8, attributionControl: false });
-      mapRef.current = map;
-      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
-      map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
-      map.on("error", () => setRouteStatus("fallback"));
-      map.on("load", async () => {
-        drawRoute(fallbackRoute);
-        try {
-          const response = await fetch(routeUrl);
-          if (!response.ok) throw new Error("route unavailable");
-          const data = await response.json();
-          const route = data.routes?.[0]?.geometry;
-          if (!route?.coordinates?.length) throw new Error("route geometry unavailable");
-          drawRoute({ type: "Feature", properties: {}, geometry: route });
-          setRouteStatus("ready");
-        } catch { setRouteStatus("fallback"); }
-      });
-    };
-
-    const drawRoute = (route: typeof fallbackRoute) => {
-      if (!map) return;
-      if (!map.getSource("race-route")) {
-        map.addSource("race-route", { type: "geojson", data: route });
-        map.addLayer({ id: "race-route-shadow", type: "line", source: "race-route", paint: { "line-color": "#142449", "line-opacity": 0.22, "line-width": 9, "line-blur": 3 } });
-        map.addLayer({ id: "race-route-line", type: "line", source: "race-route", paint: { "line-color": "#ff873d", "line-width": 4, "line-opacity": 0.98 } });
-      } else (map.getSource("race-route") as GeoJSONSource).setData(route);
-      map.fitBounds(boundsFor(route.geometry.coordinates as [number, number][]), { padding: 48, duration: 0 });
-    };
-
+    let disposed = false;
     const initialize = async () => {
+      const L = await import("leaflet");
+      if (!containerRef.current || disposed || mapRef.current) return;
+      const map = L.map(containerRef.current, { zoomControl: true, scrollWheelZoom: false });
+      mapRef.current = map;
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap contributors" }).addTo(map);
+      const bounds = L.latLngBounds(points.map(({ coordinates }) => coordinates));
+      map.fitBounds(bounds, { padding: [36, 36] });
+      points.forEach((point, index) => {
+        L.marker(point.coordinates, { icon: L.divIcon({ className: "route-marker-wrap", html: `<span class=\"route-marker-dot\"></span><span class=\"route-marker-label\">${String(index + 1).padStart(2, "0")} · ${point.name}</span>`, iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(map);
+      });
       try {
-        const protocol = new Protocol();
-        maplibregl.addProtocol("pmtiles", protocol.tile);
-        const styleResponse = await fetch("https://tiles.openfreemap.org/styles/liberty");
-        if (!styleResponse.ok) throw new Error("style unavailable");
-        const style = await styleResponse.json();
-        style.sources.openmaptiles.url = "pmtiles://https://tiles.openfreemap.org/planet";
-        drawMap(style);
-      } catch {
-        drawMap({
-          version: 8,
-          sources: { osm: { type: "raster", tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"], tileSize: 256, attribution: "© OpenStreetMap contributors" } },
-          layers: [{ id: "osm", type: "raster", source: "osm" }],
-        });
-      }
+        const response = await fetch(osrmUrl);
+        if (!response.ok) throw new Error("route unavailable");
+        const data = await response.json();
+        const coordinates = data.routes?.[0]?.geometry?.coordinates?.map(([longitude, latitude]: [number, number]) => [latitude, longitude] as [number, number]);
+        if (!coordinates?.length) throw new Error("route geometry unavailable");
+        routeRef.current = L.polyline(coordinates, { color: "#ff873d", weight: 6, opacity: 0.22 }).addTo(map);
+        L.polyline(coordinates, { color: "#ff873d", weight: 3, opacity: 1 }).addTo(map);
+        map.fitBounds(L.latLngBounds(coordinates), { padding: [36, 36] });
+        if (!disposed) setStatus("Rota da corrida");
+      } catch { if (!disposed) setStatus("Mapa da corrida"); }
     };
     void initialize();
-    return () => { cancelled = true; map?.remove(); mapRef.current = null; };
+    return () => { disposed = true; mapRef.current?.remove(); mapRef.current = null; routeRef.current = null; };
   }, []);
 
-  return <div ref={containerRef} className="route-map" aria-label="Mapa do percurso da corrida">
-    <div className="route-map-badge">{routeStatus === "loading" ? "Carregando rota…" : "Rota da corrida"}</div>
-    {points.map((point, index) => <div key={point.name} className={`route-map-point route-map-point-${index + 1}`}><span>{String(index + 1).padStart(2, "0")}</span>{point.name}</div>)}
-    <div className="route-map-credit">OpenFreeMap · OpenStreetMap</div>
-  </div>;
+  return <div ref={containerRef} className="route-map" aria-label="Mapa do percurso da corrida"><div className="route-map-badge">{status}</div><div className="route-map-credit">OpenStreetMap · Leaflet</div></div>;
 }
