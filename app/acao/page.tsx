@@ -1,0 +1,14 @@
+import Link from "next/link";
+import { ArrowLeft, ArrowRight, Heart, Route, Sparkles } from "lucide-react";
+
+export default function AcaoPage() {
+  return <main className="action-page"><div className="action-road-art" aria-hidden="true"><span /><span /><span /></div><div className="container action-container">
+    <Link href="/" className="back-link action-back"><ArrowLeft size={16}/> Voltar para a jornada</Link>
+    <header className="action-hero"><div className="action-hero-copy"><span className="stop-label">PONTO 01 · A CAUSA</span><h1>Quando a gente se move junto, <em>o cuidado chega mais longe.</em></h1><p>Passos que Alimentam nasceu para transformar uma manhã de movimento em uma corrente de solidariedade.</p></div><div className="action-badge"><Heart size={23}/><span>cada passo<br/><b>conta</b></span></div></header>
+    <section className="action-story"><div className="action-story-label"><Route size={18}/><span>A história da nossa rota</span></div><div><p>Há caminhos que começam com uma ideia simples: fazer o bem caber na rotina. A MF Contabilidade criou esta corrida para aproximar pessoas, incentivar hábitos saudáveis e transformar energia em alimento para quem precisa.</p><p>Assim surgiu uma experiência aberta para todos os ritmos. Quem corre, quem caminha, quem chega acompanhado ou dá apenas o primeiro passo — todos ajudam a construir uma manhã com mais presença, encontro e cuidado.</p></div></section>
+    <section className="action-principles"><div><span className="stop-label">MAIS QUE UMA CORRIDA</span><h2>Uma rota feita de encontros.</h2></div><div className="action-principle-grid"><article><span>01</span><Sparkles size={20}/><h3>Movimento que acolhe</h3><p>Não existe ritmo certo. Existe o seu jeito de participar e celebrar cada quilômetro.</p></article><article><span>02</span><Heart size={20}/><h3>Solidariedade concreta</h3><p>Cada inscrição se converte em doação e chega a famílias e instituições que precisam de apoio.</p></article><article><span>03</span><Route size={20}/><h3>Um futuro compartilhado</h3><p>Quando caminhamos na mesma direção, uma pequena atitude ganha força para alimentar muitos futuros.</p></article></div></section>
+    <section className="action-quote"><span>“</span><blockquote>O ponto de partida é simples: cuidar de si, encontrar o outro e deixar o caminho um pouco melhor do que encontramos.</blockquote><p>— MF Contabilidade</p></section>
+    <section className="action-cta"><div><span className="stop-label">AGORA É COM VOCÊ</span><h2>Seu próximo passo pode alimentar um futuro.</h2></div><Link href="/pre-inscricao" className="button button-primary">Quero participar <ArrowRight size={17}/></Link></section>
+    <div className="action-links"><Link href="/termo-imagem">Termo de imagem</Link><Link href="/privacidade">Aviso de privacidade</Link></div>
+  </div></main>;
+}

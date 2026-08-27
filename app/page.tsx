@@ -66,7 +66,7 @@ export default function Home() {
 
         <section className="road-stop-section intro-stop" id="pontos">
           <div className="container stop-grid">
-            <div className="stop-copy"><span className="stop-label">PONTO 01 · A CAUSA</span><h2>O caminho fica mais bonito quando a gente vai junto.</h2><p>Passos que Alimentam é uma experiência de movimento e solidariedade. Uma manhã para cuidar do corpo, encontrar pessoas e levar alimento para mais famílias.</p><Link className="road-text-link dark-link" href="/termo-imagem">Entenda a ação <ArrowRight size={17} /></Link></div>
+            <div className="stop-copy"><span className="stop-label">PONTO 01 · A CAUSA</span><h2>O caminho fica mais bonito quando a gente vai junto.</h2><p>Passos que Alimentam é uma experiência de movimento e solidariedade. Uma manhã para cuidar do corpo, encontrar pessoas e levar alimento para mais famílias.</p><Link className="road-text-link dark-link" href="/acao">Entenda a ação <ArrowRight size={17} /></Link></div>
             <Reveal delay={.1}><SpotlightCard><article className="stop-card orange-card"><span className="card-number">01</span><Heart size={30} /><strong>Um passo de cada vez.</strong><small>Renda e doações direcionadas para transformar movimento em cuidado.</small></article></SpotlightCard></Reveal>
           </div>
         </section>
