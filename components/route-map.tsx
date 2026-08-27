@@ -26,7 +26,7 @@ export default function RouteMap() {
     import("leaflet").then(({ default: L }) => {
       if (!mapRef.current || disposed) return;
       map = L.map(mapRef.current, { scrollWheelZoom: false, zoomControl: true });
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19 }).addTo(map);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", { attribution: '&copy; OpenStreetMap contributors &copy; CARTO', subdomains: "abcd", maxZoom: 20, crossOrigin: true }).addTo(map);
       const drawRoute = (route: [number, number][]) => { if (!map) return; const line = L.polyline(route, { color: "#ff873d", weight: 7, opacity: 0.95, lineCap: "round", lineJoin: "round" }).addTo(map); L.polyline(route, { color: "#fffaf2", weight: 2, opacity: 0.85, dashArray: "10 11", lineCap: "round" }).addTo(map); map.fitBounds(line.getBounds(), { padding: [28, 28] }); };
       drawRoute(points);
       const coordinates = points.map(([lat, lng]) => `${lng},${lat}`).join(";");
