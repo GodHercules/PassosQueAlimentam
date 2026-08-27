@@ -76,9 +76,12 @@ export default function Home() {
         </section>
 
         <section className="road-stop-section map-stop" id="largada">
-          <div className="container stop-grid map-stop-grid">
-            <div className="map-frame"><iframe title="Mapa da largada no Jardim de Alah" src="https://www.google.com/maps?q=Jardim%20de%20Alah%20Salvador%20BA&output=embed" loading="lazy" /></div>
-            <div className="stop-copy map-copy"><span className="stop-label">PONTO 03 · LARGADA</span><h2>Encontre a rota.</h2><p>A largada acontece no Jardim de Alah, em Salvador. Chegue cedo, respire fundo e escolha o seu ritmo.</p><div className="location-line"><MapPin size={18} /><span>Jardim de Alah<br /><small>Salvador — BA</small></span></div><Link className="button button-primary" href="/pre-inscricao">Quero participar <ArrowRight size={17} /></Link></div>
+          <div className="container route-briefing">
+            <div className="route-heading"><div><span className="stop-label">PONTO 03 · A ROTA</span><h2>Encontre o seu caminho.</h2></div><p>Uma ida para ganhar ritmo, uma volta para celebrar o que construímos juntos.</p></div>
+            <div className="route-briefing-grid">
+              <div className="map-frame"><iframe title="Mapa do percurso da Corrida Passos que Alimentam" src="https://www.google.com/maps?q=-12.996842,-38.442875&z=15&output=embed" loading="lazy" /></div>
+              <div className="route-copy"><div className="route-distance"><strong>5 km</strong><span>percurso total<br /><small>ida e volta</small></span></div><p>A rota começa no ponto de encontro, segue até a largada no Jardim de Alah e avança até o destino da prova. Depois, o caminho retorna pelo mesmo eixo: cada trecho soma um passo de cuidado.</p><div className="route-points"><a href="https://maps.app.goo.gl/W6QqSg8QFDB9EvmF7" target="_blank" rel="noreferrer"><span className="route-point-number">01</span><span><b>Ponto de encontro</b><small>Chegue, encontre a equipe e se prepare.</small></span><ArrowRight size={16}/></a><a href="https://maps.app.goo.gl/WGEzTFYrnZJEznLH9" target="_blank" rel="noreferrer"><span className="route-point-number">02</span><span><b>Largada · Jardim de Alah</b><small>Onde a corrida começa oficialmente.</small></span><ArrowRight size={16}/></a><a href="https://maps.app.goo.gl/p2omkRvGNYfAKZgq9" target="_blank" rel="noreferrer"><span className="route-point-number">03</span><span><b>Ponto de retorno</b><small>Arena O Canto da Cidade · depois, voltamos.</small></span><ArrowRight size={16}/></a></div><Link className="button button-primary" href="/pre-inscricao">Quero participar <ArrowRight size={17} /></Link></div>
+            </div>
           </div>
         </section>
 
