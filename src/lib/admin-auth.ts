@@ -8,17 +8,22 @@ function secret() { return process.env.ADMIN_SESSION_SECRET || process.env.ADMIN
 function sign(value: string) { return createHmac("sha256", secret()).update(value).digest("base64url"); }
 
 export function createAdminSession() {
-  const value = `${adminEmail}.${Date.now() + 1000 * 60 * 60 * 12}`;
+  const value = Buffer.from(JSON.stringify({ email: adminEmail, expires: Date.now() + 1000 * 60 * 60 * 12 })).toString("base64url");
   return `${value}.${sign(value)}`;
 }
 
 export function isValidAdminSession(value?: string) {
   if (!value) return false;
-  const [email, expires, signature] = value.split(".");
-  const payload = `${email}.${expires}`;
-  if (email !== adminEmail || !expires || !signature || Number(expires) < Date.now()) return false;
+  const separator = value.lastIndexOf(".");
+  if (separator <= 0) return false;
+  const payload = value.slice(0, separator);
+  const signature = value.slice(separator + 1);
   const expected = sign(payload);
-  return signature.length === expected.length && timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  if (signature.length !== expected.length || !timingSafeEqual(Buffer.from(signature), Buffer.from(expected))) return false;
+  try {
+    const session = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as { email?: string; expires?: number };
+    return session.email === adminEmail && Number(session.expires) >= Date.now();
+  } catch { return false; }
 }
 
 export async function hasAdminSession() { return isValidAdminSession((await cookies()).get(cookieName)?.value); }
