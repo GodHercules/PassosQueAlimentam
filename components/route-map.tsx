@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import maplibregl, { GeoJSONSource, Map as MapLibreMap } from "maplibre-gl";
+import { Protocol } from "pmtiles";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 type Point = { name: string; coordinates: [number, number] };
@@ -24,11 +25,32 @@ export default function RouteMap() {
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
-    const map = new maplibregl.Map({ container: containerRef.current, style: "https://tiles.openfreemap.org/styles/liberty", center: [-38.4355, -12.99], zoom: 13.8, attributionControl: false });
-    mapRef.current = map;
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
-    map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+    let map: MapLibreMap | null = null;
+    let cancelled = false;
+
+    const drawMap = (style: maplibregl.StyleSpecification) => {
+      if (!containerRef.current || cancelled) return;
+      map = new maplibregl.Map({ container: containerRef.current, style, center: [-38.4355, -12.99], zoom: 13.8, attributionControl: false });
+      mapRef.current = map;
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
+      map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+      map.on("error", () => setRouteStatus("fallback"));
+      map.on("load", async () => {
+        drawRoute(fallbackRoute);
+        try {
+          const response = await fetch(routeUrl);
+          if (!response.ok) throw new Error("route unavailable");
+          const data = await response.json();
+          const route = data.routes?.[0]?.geometry;
+          if (!route?.coordinates?.length) throw new Error("route geometry unavailable");
+          drawRoute({ type: "Feature", properties: {}, geometry: route });
+          setRouteStatus("ready");
+        } catch { setRouteStatus("fallback"); }
+      });
+    };
+
     const drawRoute = (route: typeof fallbackRoute) => {
+      if (!map) return;
       if (!map.getSource("race-route")) {
         map.addSource("race-route", { type: "geojson", data: route });
         map.addLayer({ id: "race-route-shadow", type: "line", source: "race-route", paint: { "line-color": "#142449", "line-opacity": 0.22, "line-width": 9, "line-blur": 3 } });
@@ -36,19 +58,26 @@ export default function RouteMap() {
       } else (map.getSource("race-route") as GeoJSONSource).setData(route);
       map.fitBounds(boundsFor(route.geometry.coordinates as [number, number][]), { padding: 48, duration: 0 });
     };
-    map.on("load", async () => {
-      drawRoute(fallbackRoute);
+
+    const initialize = async () => {
       try {
-        const response = await fetch(routeUrl);
-        if (!response.ok) throw new Error("route unavailable");
-        const data = await response.json();
-        const route = data.routes?.[0]?.geometry;
-        if (!route?.coordinates?.length) throw new Error("route geometry unavailable");
-        drawRoute({ type: "Feature", properties: {}, geometry: route });
-        setRouteStatus("ready");
-      } catch { setRouteStatus("fallback"); }
-    });
-    return () => { map.remove(); mapRef.current = null; };
+        const protocol = new Protocol();
+        maplibregl.addProtocol("pmtiles", protocol.tile);
+        const styleResponse = await fetch("https://tiles.openfreemap.org/styles/liberty");
+        if (!styleResponse.ok) throw new Error("style unavailable");
+        const style = await styleResponse.json();
+        style.sources.openmaptiles.url = "pmtiles://https://tiles.openfreemap.org/planet";
+        drawMap(style);
+      } catch {
+        drawMap({
+          version: 8,
+          sources: { osm: { type: "raster", tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"], tileSize: 256, attribution: "© OpenStreetMap contributors" } },
+          layers: [{ id: "osm", type: "raster", source: "osm" }],
+        });
+      }
+    };
+    void initialize();
+    return () => { cancelled = true; map?.remove(); mapRef.current = null; };
   }, []);
 
   return <div ref={containerRef} className="route-map" aria-label="Mapa do percurso da corrida">
