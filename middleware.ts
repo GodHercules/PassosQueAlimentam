@@ -1,4 +1,3 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
-export async function middleware(request:NextRequest){let response=NextResponse.next({request});const url=process.env.NEXT_PUBLIC_SUPABASE_URL;const key=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;if(!url||!key)return response;const supabase=createServerClient(url,key,{cookies:{getAll:()=>request.cookies.getAll(),setAll:(items:Array<{name:string;value:string;options:CookieOptions}>)=>items.forEach(({name,value,options})=>{request.cookies.set(name,value);response.cookies.set(name,value,options)})}});const {data:{user}}=await supabase.auth.getUser();if(request.nextUrl.pathname.startsWith('/admin')&&!request.nextUrl.pathname.startsWith('/admin/login')&&!user){const loginUrl=request.nextUrl.clone();loginUrl.pathname='/admin/login';loginUrl.searchParams.set('next','/admin');return NextResponse.redirect(loginUrl)}return response}
+export async function middleware(request:NextRequest){return NextResponse.next({request});}
 export const config={matcher:['/conta/:path*','/pre-inscricao/:path*','/admin/:path*']};

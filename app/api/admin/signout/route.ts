@@ -1,3 +1,3 @@
 import { NextResponse } from "next/server";
-import { createClient } from "../../../../src/lib/supabase/server";
-export async function POST() { const supabase = await createClient(); await supabase.auth.signOut(); return NextResponse.redirect(new URL("/admin/login", process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3002")); }
+import { cookieName } from "../../../../src/lib/admin-auth";
+export async function POST() { const response = NextResponse.redirect(new URL("/admin/login", process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3002")); response.cookies.set(cookieName, "", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 0 }); return response; }
