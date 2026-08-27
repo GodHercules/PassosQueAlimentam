@@ -97,7 +97,7 @@ button, a.button { min-height: 44px; }
 .shirt-visual > div { display:grid; justify-items:center; align-content:end; gap:7px; height:100%; color:#7181a0; font-size:12px; }
 .shirt-visual b { color:var(--ink); font-size:14px; }.shirt-column { display:flex; align-items:end; height:105px; width:38px; border-radius:9px 9px 4px 4px; background:#edf1fa; overflow:hidden; }
 .shirt-column i { display:block; width:100%; min-height:8px; border-radius:inherit; background:linear-gradient(180deg,#ff9a5c,#ff6d2a); }
-.admin-table-panel { margin-top:14px; }.admin-count { color:#7181a0; font-size:12px; }.admin-panel td strong,.admin-panel td small { display:block; }.admin-panel td small { margin-top:4px; color:#7181a0; font-size:11px; }.empty-state { padding:34px !important; text-align:center !important; color:#7181a0 !important; }
+.admin-table-panel { margin-top:14px; }.admin-count { color:#7181a0; font-size:12px; }.admin-panel td strong,.admin-panel td small { display:block; }.admin-panel td small { margin-top:4px; color:#7181a0; font-size:11px; }.empty-state { padding:34px !important; text-align:center !important; color:#7181a0 !important; }.admin-confirm-button { padding:10px 13px; font-size:12px; white-space:nowrap; }.admin-action-done { color:#7181a0; font-size:12px; white-space:nowrap; }
 .admin-error { max-width:680px; margin:15vh auto 0; padding:38px; background:#ffffff14; border:1px solid #ffffff25; border-radius:22px; }.admin-error h1 { margin-bottom:18px; }.admin-error p { color:#c9d7ef; line-height:1.65; margin-bottom:24px; }.admin-login-mark { display:grid; place-items:center; width:48px; height:48px; margin-bottom:22px; border-radius:15px; background:#fff0e8; color:var(--orange); }
 
 @media (max-width: 700px) {
