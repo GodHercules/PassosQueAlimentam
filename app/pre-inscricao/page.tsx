@@ -59,9 +59,13 @@ export default function PreInscricao() {
         consents: [{ type: "image_and_voice", granted: true, version: consentData.version || "1.1", grantedAt: consentData.acceptedAt || submittedAt }],
         guardian: null, notification: { locale: "pt-BR", sendOperationalUpdates: true, marketingConsent: false },
       };
-      const response = await fetch("/api/notify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      if (!response.ok) throw new Error("notify");
-      window.localStorage.setItem("pqa-demo-registration", JSON.stringify({ protocol, shirtSize: size, heardAbout: source, submittedAt }));
+      const registrationResponse = await fetch("/api/registrations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      if (!registrationResponse.ok) throw new Error("registration");
+      const registrationResult = await registrationResponse.json();
+      window.localStorage.setItem("pqa-demo-registration", JSON.stringify({ protocol: registrationResult.protocol || protocol, shirtSize: size, heardAbout: source, submittedAt }));
+      // The registration is already safely persisted. A notification outage
+      // must not make the participant submit the same registration again.
+      void fetch("/api/notify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }).catch(() => undefined);
       setSent(true);
     } catch { setError("Não foi possível enviar sua pré-inscrição agora. Tente novamente em instantes."); }
     finally { setSubmitting(false); }
