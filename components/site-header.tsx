@@ -26,7 +26,7 @@ export default function SiteHeader() {
       setActiveSection(pathname === "/mf" ? "mf" : "");
       return;
     }
-    const sections = ["jornada", "largada", "faq"];
+    const sections = ["jornada", "largada", "apoiadores", "faq"];
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (visible) setActiveSection(visible.target.id);
@@ -49,6 +49,7 @@ export default function SiteHeader() {
       <nav id="main-navigation" className={`nav ${menuOpen ? "is-open" : ""}`} aria-label="Navegação principal">
         <a className={activeSection === "jornada" ? "is-active" : ""} href="/#jornada" onClick={close}>Jornada</a>
         <a className={activeSection === "largada" ? "is-active" : ""} href="/#largada" onClick={close}>Largada</a>
+        <a className={activeSection === "apoiadores" ? "is-active" : ""} href="/#apoiadores" onClick={close}>Apoiadores</a>
         <a className={activeSection === "faq" ? "is-active" : ""} href="/#faq" onClick={close}>FAQ</a>
         <Link className={activeSection === "mf" ? "is-active" : ""} href="/mf" onClick={close}>Conheça a MF</Link>
         {session ? <Link href={accountHref} className="home-account-avatar" aria-label="Abrir minha conta" title={session.name || "Minha conta"}>{session.photo ? <img src={session.photo} alt="" decoding="async" /> : <span>{(session.name || "P").charAt(0).toUpperCase()}</span>}</Link> : <Link href="/entrar" onClick={close}>Já tenho conta</Link>}
