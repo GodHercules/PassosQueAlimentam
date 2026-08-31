@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowRight, Flag, Footprints, Heart, MapPin, Sparkles } from "lucide-react";
 import ContinuousRoad from "../components/continuous-road";
 import { MagneticButton, Reveal, ScrollFloat, SpotlightCard } from "../components/interactive";
-import RouteMap from "../components/route-map";
+import LazyRouteMap from "../components/lazy-route-map";
 import SiteHeader from "../components/site-header";
 
 const stops = [
@@ -55,7 +55,7 @@ export default function Home() {
           <div className="container route-briefing">
             <div className="route-heading"><div><span className="stop-label">PONTO 03 · A ROTA</span><h2>Encontre o seu caminho.</h2></div><p>Uma ida para ganhar ritmo, uma volta para celebrar o que construímos juntos.</p></div>
             <div className="route-briefing-grid">
-              <div className="map-frame"><RouteMap /></div>
+              <div className="map-frame"><LazyRouteMap /></div>
               <div className="route-copy"><div className="route-distance"><strong>5 km</strong><span>percurso total<br /><small>ida e volta</small></span></div><p>A rota começa no ponto de encontro, segue até a largada no Jardim de Alah e avança até o destino da prova. Depois, o caminho retorna pelo mesmo eixo: cada trecho soma um passo de cuidado.</p><div className="route-points"><a href="https://maps.app.goo.gl/W6QqSg8QFDB9EvmF7" target="_blank" rel="noreferrer"><span className="route-point-number">01</span><span><b>Ponto de encontro</b><small>Chegue, encontre a equipe e se prepare.</small></span><ArrowRight size={16}/></a><a href="https://maps.app.goo.gl/WGEzTFYrnZJEznLH9" target="_blank" rel="noreferrer"><span className="route-point-number">02</span><span><b>Largada · Jardim de Alah</b><small>Onde a corrida começa oficialmente.</small></span><ArrowRight size={16}/></a><a href="https://maps.app.goo.gl/p2omkRvGNYfAKZgq9" target="_blank" rel="noreferrer"><span className="route-point-number">03</span><span><b>Ponto de retorno</b><small>Arena O Canto da Cidade · depois, voltamos.</small></span><ArrowRight size={16}/></a></div><Link className="button button-primary" href="/pre-inscricao">Quero participar <ArrowRight size={17} /></Link></div>
             </div>
           </div>

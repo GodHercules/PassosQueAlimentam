@@ -51,7 +51,7 @@ export default function SiteHeader() {
         <a className={activeSection === "largada" ? "is-active" : ""} href="/#largada" onClick={close}>Largada</a>
         <a className={activeSection === "faq" ? "is-active" : ""} href="/#faq" onClick={close}>FAQ</a>
         <Link className={activeSection === "mf" ? "is-active" : ""} href="/mf" onClick={close}>Conheça a MF</Link>
-        {session ? <Link href={accountHref} className="home-account-avatar" aria-label="Abrir minha conta" title={session.name || "Minha conta"}>{session.photo ? <img src={session.photo} alt="" /> : <span>{(session.name || "P").charAt(0).toUpperCase()}</span>}</Link> : <Link href="/entrar" onClick={close}>Já tenho conta</Link>}
+        {session ? <Link href={accountHref} className="home-account-avatar" aria-label="Abrir minha conta" title={session.name || "Minha conta"}>{session.photo ? <img src={session.photo} alt="" decoding="async" /> : <span>{(session.name || "P").charAt(0).toUpperCase()}</span>}</Link> : <Link href="/entrar" onClick={close}>Já tenho conta</Link>}
         <Link className="button button-primary nav-button" href={actionHref} onClick={close}>{actionLabel} <ArrowRight size={16} /></Link>
       </nav>
     </div>
