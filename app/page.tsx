@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { ArrowDown, ArrowRight, Flag, Footprints, Heart, MapPin, Menu, Sparkles, X } from "lucide-react";
+import { ArrowDown, ArrowRight, Flag, Footprints, Heart, MapPin, Sparkles } from "lucide-react";
 import ContinuousRoad from "../components/continuous-road";
 import { MagneticButton, Reveal, ScrollFloat, SpotlightCard } from "../components/interactive";
 import RouteMap from "../components/route-map";
+import SiteHeader from "../components/site-header";
 
 const stops = [
   { no: "01", title: "Comece no seu ritmo", text: "Uma corrida para todos os corpos, idades e histórias. O importante é dar o primeiro passo.", icon: Footprints },
@@ -14,34 +14,9 @@ const stops = [
 ];
 
 export default function Home() {
-  const [session, setSession] = useState<{ name?: string; photo?: string } | null>(null);
-  const [enrolled, setEnrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => {
-    try {
-      const savedSession = JSON.parse(window.localStorage.getItem("pqa-demo-session") || "null");
-      setSession(savedSession?.email ? savedSession : null);
-      setEnrolled(Boolean(window.localStorage.getItem("pqa-demo-registration")));
-    } catch { setSession(null); setEnrolled(false); }
-  }, []);
-  const accountHref = session ? "/perfil" : "/entrar";
-  const actionHref = session && enrolled ? "/conta" : "/pre-inscricao";
-  const actionLabel = session && enrolled ? "Ver minha inscrição" : "Inscrever-se";
   return (
     <>
-      <header className="site-header road-header">
-        <div className="container header-inner">
-          <Link href="/" className="brand brand-logo" aria-label="MF Contabilidade">
-            <Image src="/brand/mf-logo.png" alt="MF Medina e Freire Contabilidade" width={180} height={54} priority />
-          </Link>
-          <button className="mobile-menu-toggle" type="button" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
-          <nav id="main-navigation" className={`nav ${menuOpen ? "is-open" : ""}`} aria-label="Navegação principal">
-            <a href="#jornada" onClick={() => setMenuOpen(false)}>Jornada</a><a href="#largada" onClick={() => setMenuOpen(false)}>Largada</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
-            {session ? <Link href={accountHref} className="home-account-avatar" aria-label="Abrir minha conta" title={session.name || "Minha conta"}>{session.photo ? <img src={session.photo} alt="" /> : <span>{(session.name || "P").charAt(0).toUpperCase()}</span>}</Link> : <Link href="/entrar">Já tenho conta</Link>}
-            <Link className="button button-primary nav-button" href={actionHref}>{actionLabel} <ArrowRight size={16} /></Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="road-site">
         <ContinuousRoad />
@@ -97,7 +72,7 @@ export default function Home() {
         <section className="faq-section road-faq" id="faq"><div className="container faq-layout"><div className="faq-intro"><span className="stop-label">AINDA NA DÚVIDA?</span><h2>Perguntas<br /><em>no caminho.</em></h2><p>Informações rápidas para você chegar preparado e aproveitar cada passo.</p><Link href="/pre-inscricao" className="faq-cta">Começar minha jornada <ArrowRight size={16}/></Link></div><div className="faq-grid"><details className="faq-item"><summary>Quem pode participar?</summary><p>Todo mundo pode correr ou caminhar no seu próprio ritmo. O importante é participar respeitando seus limites.</p></details><details className="faq-item"><summary>Como faço minha inscrição?</summary><p>Comece pela pré-inscrição. Em seguida, crie sua conta e acompanhe as orientações para concluir seu cadastro.</p></details><details className="faq-item"><summary>Onde será a largada?</summary><p>No Jardim de Alah, em Salvador — BA. O mapa com o ponto de partida está na seção Largada.</p></details><details className="faq-item"><summary>Como posso ajudar além da corrida?</summary><p>Você pode divulgar a ação, apoiar como patrocinador ou fazer uma doação para a causa.</p></details></div></div></section>
       </main>
 
-      <footer className="site-footer road-footer"><div className="container footer-main"><div className="footer-brand"><Image src="/brand/mf-logo.png" alt="MF Medina e Freire Contabilidade" width={180} height={54}/><p>Uma ação da MF Contabilidade para transformar passos em cuidado.</p></div><div className="footer-column"><span>Jornada</span><Link href="#jornada">Início</Link><Link href="#largada">Largada</Link><Link href="#faq">Perguntas</Link></div><div className="footer-column"><span>Participação</span><Link href="/pre-inscricao">Inscrever-se</Link><Link href="/entrar">Minha conta</Link><Link href="/termo-imagem">Termo de imagem</Link></div></div><div className="container footer-bottom"><span>© 2026 MF Contabilidade · Passos que Alimentam</span><Link href="/privacidade">Aviso de privacidade</Link></div></footer>
+      <footer className="site-footer road-footer"><div className="container footer-main"><div className="footer-brand"><Link href="/" aria-label="Voltar para o início"><Image src="/brand/mf-logo.png" alt="MF Medina e Freire Contabilidade" width={180} height={54}/></Link><p>Uma ação da MF Contabilidade para transformar passos em cuidado.</p></div><div className="footer-column"><span>Jornada</span><Link href="#jornada">Início</Link><Link href="#largada">Largada</Link><Link href="#faq">Perguntas</Link></div><div className="footer-column"><span>Participação</span><Link href="/pre-inscricao">Inscrever-se</Link><Link href="/entrar">Minha conta</Link><Link href="/termo-imagem">Termo de imagem</Link><Link href="/mf">Conheça a MF</Link></div></div><div className="container footer-bottom"><span>© 2026 MF Contabilidade · Passos que Alimentam</span><Link href="/privacidade">Aviso de privacidade</Link></div></footer>
     </>
   );
 }

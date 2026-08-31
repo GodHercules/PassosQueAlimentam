@@ -1,0 +1,252 @@
+.mf-hero-visual {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 360px;
+  height: 420px;
+}
+
+.mf-mascot {
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  width: min(315px, 100%);
+  height: 430px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 22px 18px #13264c25);
+}
+
+.mf-hero-visual .mf-hero-note {
+  position: absolute;
+  z-index: 2;
+  left: -2px;
+  top: 12px;
+  width: 175px;
+  height: 175px;
+}
+
+@media (max-width: 700px) {
+  .mf-hero-visual {
+    min-width: 0;
+    height: 340px;
+    margin-top: 25px;
+  }
+
+  .mf-mascot {
+    right: 8px;
+    width: 245px;
+    height: 350px;
+  }
+
+  .mf-hero-visual .mf-hero-note {
+    left: 0;
+    top: 20px;
+    width: 135px;
+    height: 135px;
+  }
+}
+
+.mf-purpose {
+  position: relative;
+  z-index: 1;
+  padding: 110px 0 120px;
+  background: #fffaf2;
+}
+
+.mf-purpose-intro {
+  max-width: 760px;
+  margin-bottom: 52px;
+}
+
+.mf-purpose-intro h2 {
+  max-width: 720px;
+  margin: 17px 0 22px;
+  font: 700 clamp(44px, 5vw, 70px)/.9 var(--font-display);
+  letter-spacing: -.08em;
+}
+
+.mf-purpose-intro h2 em {
+  color: #ff873d;
+  font-style: normal;
+}
+
+.mf-purpose-intro > p {
+  max-width: 670px;
+  color: #5c7095;
+  font-size: 19px;
+  line-height: 1.65;
+}
+
+.mf-purpose-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.mf-purpose-card {
+  min-height: 390px;
+  padding: 30px;
+  border: 1px solid #e7dccc;
+  border-radius: 20px;
+  background: #f6f1e8;
+  box-shadow: 0 16px 35px #13264c0d;
+}
+
+.mf-purpose-number {
+  color: #ff873d;
+  font: 700 34px var(--font-display);
+}
+
+.mf-purpose-card h3 {
+  margin: 38px 0 18px;
+  font: 700 32px/.95 var(--font-display);
+  letter-spacing: -.06em;
+}
+
+.mf-purpose-card p {
+  color: #5c7095;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: -.01em;
+  hyphens: auto;
+  text-align-last: left;
+  margin: 0 0 16px;
+}
+
+.mf-purpose-values ul {
+  display: grid;
+  gap: 9px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #13264c;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.mf-purpose-values li::before {
+  content: "•";
+  margin-right: 9px;
+  color: #ff873d;
+}
+
+@media (max-width: 700px) {
+  .mf-purpose {
+    padding: 75px 0 80px;
+  }
+
+  .mf-purpose-intro h2 {
+    font-size: 49px;
+  }
+
+  .mf-purpose-intro > p {
+    font-size: 18px;
+  }
+
+  .mf-purpose-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mf-purpose-card {
+    min-height: 0;
+  }
+}
+
+.mf-hero-visual {
+  min-width: 425px;
+  height: 455px;
+  isolation: isolate;
+}
+
+.mf-hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: 38px 0 0 58px;
+  z-index: -2;
+  border-radius: 48% 48% 22% 22%;
+  background: linear-gradient(155deg, #fffaf2, #ece3d5);
+  box-shadow: 0 24px 50px #13264c14;
+}
+
+.mf-hero-visual::after {
+  content: "";
+  position: absolute;
+  right: -20px;
+  bottom: 30px;
+  z-index: -1;
+  width: 210px;
+  height: 210px;
+  border: 1px solid #ff873d55;
+  border-radius: 50%;
+}
+
+.mf-mascot {
+  right: -28px;
+  bottom: 2px;
+  width: min(355px, 100%);
+  height: 455px;
+}
+
+.mf-hero-visual .mf-hero-note {
+  left: -23px;
+  top: 28px;
+  z-index: 3;
+  width: 205px;
+  height: 205px;
+  transform: rotate(-7deg);
+}
+
+.mf-hero-note img {
+  width: 180px;
+  height: auto;
+  max-width: none;
+  object-fit: contain;
+  filter: contrast(1.12) saturate(1.04);
+}
+
+.mf-story-copy p,
+.mf-purpose-intro > p,
+.mf-purpose-card p,
+.mf-connect > div > p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+@media (max-width: 700px) {
+  .mf-hero-visual {
+    min-width: 0;
+    height: 355px;
+    margin-top: 30px;
+  }
+
+  .mf-hero-visual::before {
+    inset: 28px 12px 0 25px;
+  }
+
+  .mf-hero-visual::after {
+    right: -5px;
+    bottom: 18px;
+    width: 155px;
+    height: 155px;
+  }
+
+  .mf-mascot {
+    right: -12px;
+    width: 280px;
+    height: 365px;
+  }
+
+  .mf-hero-visual .mf-hero-note {
+    left: -8px;
+    top: 18px;
+    width: 160px;
+    height: 160px;
+  }
+
+  .mf-hero-note img {
+    width: 145px;
+    height: auto;
+  }
+}
