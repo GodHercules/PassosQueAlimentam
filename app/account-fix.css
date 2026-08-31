@@ -32,6 +32,23 @@ body main.account-road-shell .cancel-registration:hover{text-decoration:underlin
 body main.account-road-shell .edit-registration{display:inline-flex;align-items:center;gap:6px;color:var(--blue);font-weight:700;font-size:14px}
 @media(max-width:700px){body main.account-road-shell .account-actions{gap:6px}body main.account-road-shell .account-actions .button{min-height:42px;padding:0 12px;font-size:13px}body main.account-road-shell .registration-actions{align-items:flex-start;flex-direction:column;gap:6px}}
 
+body main.account-road-shell .account-empty-state{max-width:760px;margin:52px 0 80px;padding:48px;background:#fff;border-radius:22px;color:var(--ink);box-shadow:0 18px 42px #06132e26}
+body main.account-road-shell .account-empty-icon{width:54px;height:54px;display:grid;place-items:center;margin-bottom:24px;border-radius:16px;background:#fff0e8;color:var(--orange)}
+body main.account-road-shell .account-empty-state h2{max-width:620px;margin:12px 0 16px;font:700 clamp(36px,5vw,58px)/.95 var(--font-display);letter-spacing:-.07em}
+body main.account-road-shell .account-empty-state p{max-width:610px;margin:0 0 28px;color:#617392;font-size:17px;line-height:1.65}
+body main.account-road-shell .account-empty-state .button{width:auto}
+body main.account-road-shell .account-modal-overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:20px;background:#071735aa;backdrop-filter:blur(8px)}
+body main.account-road-shell .account-modal{position:relative;width:min(100%,470px);padding:34px;background:#fff;border-radius:22px;color:var(--ink);box-shadow:0 28px 80px #020d2466}
+body main.account-road-shell .account-modal-close{position:absolute;top:15px;right:15px;width:36px;height:36px;border:0;border-radius:50%;background:#f1f4fa;color:#516583;display:grid;place-items:center}
+body main.account-road-shell .account-modal-icon{width:50px;height:50px;display:grid;place-items:center;margin-bottom:20px;border-radius:15px;background:#fff0e8;color:#b42318}
+body main.account-road-shell .account-modal h2{margin:10px 0 12px;font:700 34px/.95 var(--font-display);letter-spacing:-.06em}
+body main.account-road-shell .account-modal p{margin:0;color:#617392;line-height:1.6}
+body main.account-road-shell .account-modal-actions{display:flex;gap:10px;margin-top:26px}
+body main.account-road-shell .account-modal-actions .button{flex:1}
+body main.account-road-shell .account-danger-button{border:0;background:#b42318;color:#fff}
+body main.account-road-shell .account-danger-button:hover{background:#8f1c14}
+@media(max-width:700px){body main.account-road-shell .account-empty-state{margin:38px 0 55px;padding:28px 22px}body main.account-road-shell .account-empty-state .button{width:100%}body main.account-road-shell .account-modal{padding:28px 22px}body main.account-road-shell .account-modal-actions{flex-direction:column-reverse}body main.account-road-shell .account-modal-actions .button{width:100%}}
+
 .auth-road-shell{background:linear-gradient(145deg,#071735 0%,#102e65 54%,#eef3ff 145%);position:relative;overflow:auto}
 .auth-road-shell:before{content:"";position:fixed;inset:-20% -10%;pointer-events:none;opacity:.18;background:repeating-radial-gradient(ellipse at 70% 30%,transparent 0 90px,#ff873d 92px 94px,transparent 96px 170px);transform:rotate(-12deg)}
 .auth-road-shell .auth-card{position:relative;z-index:1;width:min(100%,620px);max-height:calc(100vh - 40px);overflow:auto}
